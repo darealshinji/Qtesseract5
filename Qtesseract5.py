@@ -1,7 +1,8 @@
-#!/usr/bin/python3
+#!/usr/bin/python3 -u
 # -*- coding: utf-8 -*-
 
 """Script permettant la conversion des fichiers SUB en SRT avec interface graphique pour les textes non traduits automatiquements."""
+
 
 
 ###############################
@@ -11,15 +12,12 @@ import sys
 from concurrent.futures import ThreadPoolExecutor # Permet de le multi calcul
 from shutil import copyfile # Permet de copier le fichier sub dans le dossier temporaire de travail
 from pathlib import Path # Nécessaire pour la recherche de fichier
-from psutil import cpu_count # Indique le nombre de cpu
-
 
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox, QDesktopWidget, QInputDialog, QPushButton, QFileDialog, QProgressDialog
-from PyQt5.QtCore import QProcess, QCoreApplication, Qt, QLocale, QTranslator, QLibraryInfo, QCommandLineOption, QCommandLineParser, QTemporaryDir, QStandardPaths, QCryptographicHash, QDir
+from PyQt5.QtCore import QProcess, QCoreApplication, Qt, QLocale, QTranslator, QLibraryInfo, QCommandLineOption, QCommandLineParser, QTemporaryDir, QStandardPaths, QCryptographicHash, QDir, QThread
 
 from ui_Qtesseract5 import Ui_Qtesseract5 # Utilisé pour la fenêtre principale
-
 
 
 ##########################
@@ -214,7 +212,6 @@ class Qtesseract5(QMainWindow):
             self.ui.sub_text.clear()
 
 
-
 #############################################################################
 if __name__ == '__main__':
     ####################
@@ -226,7 +223,6 @@ if __name__ == '__main__':
     app.setWindowIcon(QIcon.fromTheme("mkv-extractor-qt5", QIcon(":/img/mkv-extractor-qt5.png"))) # icone de l'application
 
     GlobalVar = {} # Dictionnaire contenant toutes les variables
-
 
 
     ###################
@@ -260,28 +256,6 @@ if __name__ == '__main__':
 
 
 
-    #############################
-    ### Logiciels necessaires ###
-    #############################
-    ### Recherche les 3 logiciels necessaires
-    for executable in ["tesseract", "subp2pgm", "subptools"]:
-        ## Recherche les executables
-        if not QStandardPaths.findExecutable(executable) and not QStandardPaths.findExecutable(executable, [str(folder)]):
-            QuitError(QCoreApplication.translate("main", "Error: The {} executable isn't founded.").format(executable))
-
-        ## Définit les adresses des executables
-        x = QStandardPaths.findExecutable(executable)
-        y = QStandardPaths.findExecutable(executable, [str(folder)])
-
-        ## Définit l'adresse du programme
-        if x:
-            GlobalVar[executable] = x
-
-        elif y:
-            GlobalVar[executable] = y
-
-
-
     ########################
     ### Parser de config ###
     ########################
@@ -289,7 +263,7 @@ if __name__ == '__main__':
     qOption = QCommandLineOption(["q", "quiet"], QCoreApplication.translate("main", "Don't reply informations, optionally."), "", "False")
     gOption = QCommandLineOption(["g", "no-gui"], QCoreApplication.translate("main", "Hide the progress dialog."), "", "False")
     lOption = QCommandLineOption(["l", "language"], QCoreApplication.translate("main", "Language to use for Tesseract ({})."), QCoreApplication.translate("main", "Lang"), "")
-    cOption = QCommandLineOption(["c", "cpu"], QCoreApplication.translate("main", "Number of cpu to use, by default is the max."), QCoreApplication.translate("main", "Number"), str(cpu_count()))
+    cOption = QCommandLineOption(["c", "cpu"], QCoreApplication.translate("main", "Number of cpu to use, by default is the max."), QCoreApplication.translate("main", "Number"), str(QThread.idealThreadCount()))
 
 
     ### Création du parser
@@ -310,12 +284,24 @@ if __name__ == '__main__':
     #################
     ### Variables ###
     #################
+    ### Mode silence
+    GlobalVar["q"] = parser.isSet(qOption)
+
+
+    ### Nombre de cpu à utiliser
+    GlobalVar["c"] = int(parser.value(cOption))
+
+
     ### Création d'un dossier temporaire
     while True:
         GlobalVar["FolderTempWidget"] = QTemporaryDir()
 
         if GlobalVar["FolderTempWidget"].isValid():
             GlobalVar["FolderTemp"] = Path(GlobalVar["FolderTempWidget"].path()) # Dossier temporaire
+
+            if not GlobalVar["q"]:
+                print(QCoreApplication.translate("main", "Temporary folder: {}").format(GlobalVar["FolderTemp"]), file=sys.stdout)
+
             break
 
 
@@ -331,25 +317,44 @@ if __name__ == '__main__':
     GlobalVar["g"] = parser.isSet(gOption)
 
 
+    ### Recherche les 3 logiciels necessaires
+    for executable in ["tesseract", "subp2pgm", "subptools"]:
+        ## Recherche les executables
+        if not QStandardPaths.findExecutable(executable) and not QStandardPaths.findExecutable(executable, [str(folder)]):
+            QuitError(QCoreApplication.translate("main", "Error: The {} executable isn't founded.").format(executable))
+
+        ## Définit les adresses des executables
+        x = QStandardPaths.findExecutable(executable)
+        y = QStandardPaths.findExecutable(executable, [str(folder)])
+
+        ## Définit l'adresse du programme
+        if x:
+            GlobalVar[executable] = x
+
+        elif y:
+            GlobalVar[executable] = y
+
+
     ### Fichiers d'entrée et de sortie en mode visuel
     ## Mode graphique si besoin
     if len(parser.positionalArguments()) < 2:
         ## Fichier IDX d'entrée
         GlobalVar["IDX"] = Path(QFileDialog.getOpenFileName(None, QCoreApplication.translate("main", "Select the IDX file to translate"), QDir.homePath(), "IDX file (*.idx)")[0])
 
-        if not GlobalVar["IDX"].is_file():
-            QuitError(QCoreApplication.translate("main", "Error: The IDX input file doesn't exists.").format(executable))
-
         ## Fichier SRT de sortie
         GlobalVar["SRT"] = Path(QFileDialog.getSaveFileName(None, QCoreApplication.translate("main", "Select the output SRT file translated"), QDir.homePath(), "Text file (*.srt *.txt)")[0])
-
-        if GlobalVar["SRT"].is_dir():
-            QuitError(QCoreApplication.translate("main", "Error: Qtesseract5 need a SRT output file.").format(executable))
 
     ## Mode arguments
     else:
         GlobalVar["IDX"] = Path(parser.positionalArguments()[-2])
         GlobalVar["SRT"] = Path(parser.positionalArguments()[-1])
+
+
+        if not GlobalVar["IDX"].is_file():
+            QuitError(QCoreApplication.translate("main", "Error: The IDX input file doesn't exists.").format(executable))
+
+        if GlobalVar["SRT"].is_dir():
+            QuitError(QCoreApplication.translate("main", "Error: Qtesseract5 need a SRT output file.").format(executable))
 
 
     ### Langue à utiliser
@@ -392,15 +397,6 @@ if __name__ == '__main__':
     ## Langue donnée par commande
     else:
         GlobalVar["l"] = parser.value(lOption)
-
-
-
-    ### Mode silence
-    GlobalVar["q"] = parser.isSet(qOption)
-
-
-    ### Nombre de cpu à utiliser
-    GlobalVar["c"] = int(parser.value(cOption))
 
 
     ### Initialisation de variables
@@ -516,6 +512,10 @@ if __name__ == '__main__':
 
     else:
         QuitError(QCoreApplication.translate("main", "Error: SRT file isn't created."))
+
+
+    if not GlobalVar["FolderTempWidget"].remove():
+        ErrorMessages(QCoreApplication.translate("main", "Error: The temporary folder was not deleted."))
 
     sys.exit(0)
 

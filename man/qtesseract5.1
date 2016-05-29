@@ -1,0 +1,38 @@
+.\"Created with GNOME Manpages Editor
+.\"http://sourceforge.net/projects/gmanedit2
+
+.TH man 1 "22 April 2016" "1.0" "Qtesseract5 man page"
+
+.SH NAME
+qtesseract5 \- convert IDX/SUB file in SRT file.
+
+..SH SYNOPSIS
+.B qtesseract5
+.RI [ options ]
+source destination
+
+.SH DESCRIPTION
+\fBQtesseract5\fP is a software who converts the IDX/SUB file in SRT (text) file. For that works, it use
+.I subp2pgm
+(export the images files from SUB file),
+.I Tesseract
+(for read their files) and
+.I subptools
+(to create a SRT file).
+
+.SH OPTIONS
+.IP \fB\-q,\ -\-quiet\fP
+Don't reply informations.
+.IP \fB\-g,\ \-\-no\-gui\fP
+Hide the progress dialog.
+.IP \fB\-l,\ \-\-language\fP
+Language to use by Tesseract for convert the images.
+.IP \fB\-c,\ \-\-cpu\fP
+Number of cpu to use, by default is the max.
+
+.SH NOTES
+This is the first release of my software.
+Contact me if you have questions.
+
+.SH AUTHOR
+Terence Belleguic <hizo@free.fr>
