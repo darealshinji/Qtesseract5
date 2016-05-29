@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="fr_FR" sourcelanguage="">
+<!DOCTYPE TS>
+<TS version="2.1" language="fr_FR">
 <context>
     <name>Qtesseract</name>
     <message>
@@ -124,49 +125,49 @@
         <translation type="obsolete">Langue à utiliser pour Tesseract (eng, fra...).</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="280"/>
+        <location filename="Qtesseract5.py" line="296"/>
         <source>Source IDX file to translate.</source>
         <translation>Fichier source IDX à traduire.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="281"/>
+        <location filename="Qtesseract5.py" line="297"/>
         <source>Destination SRT file translated.</source>
         <translation>Fichier de SRT destination traduit.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="377"/>
+        <location filename="Qtesseract5.py" line="421"/>
         <source>Use another language</source>
         <translation>Utiliser une autre langue</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="377"/>
+        <location filename="Qtesseract5.py" line="421"/>
         <source>Choose what another language use for read the images with Tesseract:</source>
         <translation>Choisir quel autre langue utiliser pour lire les images avec Tesseract :</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="280"/>
+        <location filename="Qtesseract5.py" line="296"/>
         <source>source</source>
         <translation>source</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="281"/>
+        <location filename="Qtesseract5.py" line="297"/>
         <source>destination</source>
         <translation>destination</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="366"/>
+        <location filename="Qtesseract5.py" line="410"/>
         <source>Tesseract langs error</source>
         <translation>Erreur de langue avec Tesseract</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="366"/>
+        <location filename="Qtesseract5.py" line="410"/>
         <source>The subtitle language is not avaible in Tesseract list langs:
 {}</source>
         <translation>La langue du sous-titre n&apos;est pas disponible dans la liste des langues de Tesseract :
 {}</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="336"/>
+        <location filename="Qtesseract5.py" line="342"/>
         <source>Error: The {} executable isn&apos;t founded.</source>
         <translation>Erreur : L&apos;executable {} est introuvable.</translation>
     </message>
@@ -176,7 +177,7 @@
         <translation type="obsolete">L&apos;utilisation de Tesseract est términé.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="161"/>
+        <location filename="Qtesseract5.py" line="179"/>
         <source>File with the hash: {}.</source>
         <translation>Fichier avec le hash : {}.</translation>
     </message>
@@ -186,7 +187,7 @@
         <translation type="obsolete">Erreur : Pas de fichier d&apos;entré à utiliser.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="443"/>
+        <location filename="Qtesseract5.py" line="498"/>
         <source>{} files generated.</source>
         <translation>{} fichiers générés.</translation>
     </message>
@@ -196,17 +197,17 @@
         <translation type="obsolete">Il manque le fichier IDX d&apos;entrée où le fichier SRT de sortie, voire les deux.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="273"/>
+        <location filename="Qtesseract5.py" line="289"/>
         <source>This software convert a IDX/SUB file in SRT (text) file with Tesseract, subp2pgm and subptools.</source>
         <translation>Ce logiciel converti un fichier IDX/SUB en fichier SRT (texte) avec Tesseract, subp2pgm et subptools.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="510"/>
+        <location filename="Qtesseract5.py" line="595"/>
         <source>The SRT file is created.</source>
         <translation>Le fichier SRT a été créé.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="513"/>
+        <location filename="Qtesseract5.py" line="598"/>
         <source>Error: SRT file isn&apos;t created.</source>
         <translation>Erreur : Le fichier n&apos;a pas été créé.</translation>
     </message>
@@ -216,12 +217,12 @@
         <translation type="obsolete">Erreur : Le travail a échoué.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="268"/>
+        <location filename="Qtesseract5.py" line="284"/>
         <source>Number of cpu to use, by default is the max.</source>
         <translation>Nombre de cpu à utiliser, le max par défaut.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="317"/>
+        <location filename="Qtesseract5.py" line="377"/>
         <source>Error: The IDX input file doesn&apos;t exists.</source>
         <translation>Erreur : Le fichier IDX d&apos;entré n&apos;existe pas.</translation>
     </message>
@@ -236,22 +237,22 @@
         <translation type="obsolete">Erreur : Le dossier temporaire n&apos;a pas été supprimé.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="265"/>
+        <location filename="Qtesseract5.py" line="281"/>
         <source>Don&apos;t reply informations, optionally.</source>
         <translation>Ne pas envoyer d&apos;informations, optionnel.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="267"/>
+        <location filename="Qtesseract5.py" line="283"/>
         <source>Language to use for Tesseract ({}).</source>
         <translation>Langue à utiliser pour Tesseract ({}).</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="267"/>
+        <location filename="Qtesseract5.py" line="283"/>
         <source>Lang</source>
         <translation>Langue</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="268"/>
+        <location filename="Qtesseract5.py" line="284"/>
         <source>Number</source>
         <translation>Nombre</translation>
     </message>
@@ -261,17 +262,17 @@
         <translation type="obsolete">Erreur : Fichier IDX d&apos;entrée ou fichier SRT de sortie manquant, voire les deux.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="106"/>
+        <location filename="Qtesseract5.py" line="602"/>
         <source>Error: The temporary folder was not deleted.</source>
         <translation>Erreur : Le dossier temporaire n&apos;a pas été supprimé.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="314"/>
+        <location filename="Qtesseract5.py" line="369"/>
         <source>Select the IDX file to translate</source>
         <translation>Selectionner le fichier IDX à traduire</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="320"/>
+        <location filename="Qtesseract5.py" line="384"/>
         <source>Select the output SRT file translated</source>
         <translation>Selectionner le fichier SRT traduit de sortie</translation>
     </message>
@@ -281,49 +282,74 @@
         <translation type="obsolete">Erreur : Qtesseract5 a besoin d&apos;un fichier de sortie.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="354"/>
+        <location filename="Qtesseract5.py" line="398"/>
         <source>Choose the language to use</source>
         <translation>Choisir la langue à utiliser</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="354"/>
+        <location filename="Qtesseract5.py" line="398"/>
         <source>Choose what language use for read the images with Tesseract:</source>
         <translation>Choisir quel autre langue utiliser pour lire les images avec Tesseract :</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="466"/>
+        <location filename="Qtesseract5.py" line="525"/>
         <source>Error: The work has been canceled.</source>
         <translation>Erreur : Le travail a été annulé.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="266"/>
+        <location filename="Qtesseract5.py" line="282"/>
         <source>Hide the progress dialog.</source>
         <translation>Cacher la fenêtre de progression.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="94"/>
+        <location filename="Qtesseract5.py" line="136"/>
         <source>Error Message</source>
         <translation>Message d&apos;Erreur</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="323"/>
+        <location filename="Qtesseract5.py" line="391"/>
         <source>Error: Qtesseract5 need a SRT output file.</source>
         <translation>Erreur : Qtesseract5 a besoin d&apos;un fichier de sortie.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="414"/>
+        <location filename="Qtesseract5.py" line="432"/>
         <source>Tesseract progress</source>
-        <translation>Progression de Tesseract</translation>
+        <translation type="obsolete">Progression de Tesseract</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="414"/>
+        <location filename="Qtesseract5.py" line="462"/>
         <source>Stop work</source>
         <translation>Arrêter le travail</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="507"/>
+        <location filename="Qtesseract5.py" line="592"/>
         <source>Work Finished</source>
         <translation>Travail Terminé</translation>
+    </message>
+    <message>
+        <location filename="Qtesseract5.py" line="464"/>
+        <source>Pause</source>
+        <translation>Pause</translation>
+    </message>
+    <message>
+        <location filename="Qtesseract5.py" line="538"/>
+        <source>Tesseract couldn&apos;t recognize the subtitle file. It must be done manually.</source>
+        <translation>Tesseract n&apos;a pas pu reconnaître tous les sous-titres. Il faut finir manuellement.</translation>
+    </message>
+    <message>
+        <location filename="Qtesseract5.py" line="551"/>
+        <source>Previous image</source>
+        <translation>Image précédante</translation>
+    </message>
+    <message>
+        <location filename="Qtesseract5.py" line="554"/>
+        <source>I&apos;m finish</source>
+        <translation>J&apos;ai terminé</translation>
+    </message>
+    <message>
+        <location filename="Qtesseract5.py" line="557"/>
+        <source>Next image</source>
+        <translation>Image suivante</translation>
     </message>
 </context>
 <context>

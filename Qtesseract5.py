@@ -4,7 +4,6 @@
 """Script permettant la conversion des fichiers SUB en SRT avec interface graphique pour les textes non traduits automatiquements."""
 
 
-
 ###############################
 ### Importation des modules ###
 ###############################
@@ -12,17 +11,15 @@ import sys
 from concurrent.futures import ThreadPoolExecutor # Permet de le multi calcul
 from shutil import copyfile # Permet de copier le fichier sub dans le dossier temporaire de travail
 from pathlib import Path # Nécessaire pour la recherche de fichier
+from time import sleep # Necessaire pour mettre en pause la convertion
 
-from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox, QDesktopWidget, QInputDialog, QPushButton, QFileDialog, QProgressDialog
-from PyQt5.QtCore import QProcess, QCoreApplication, Qt, QLocale, QTranslator, QLibraryInfo, QCommandLineOption, QCommandLineParser, QTemporaryDir, QStandardPaths, QCryptographicHash, QDir, QThread
+from PyQt5.QtGui import QIcon, QPixmap, QDesktopServices
+from PyQt5.QtWidgets import QApplication, QMessageBox, QDesktopWidget, QInputDialog, QPushButton, QFileDialog, QProgressBar, QDialog, QVBoxLayout, QHBoxLayout, QPlainTextEdit, QLabel, QSpacerItem, QSizePolicy, QStatusBar
+from PyQt5.QtCore import QProcess, QCoreApplication, Qt, QLocale, QTranslator, QLibraryInfo, QCommandLineOption, QCommandLineParser, QTemporaryDir, QStandardPaths, QCryptographicHash, QDir, QThread, QUrl
 
-from ui_Qtesseract5 import Ui_Qtesseract5 # Utilisé pour la fenêtre principale
+import Qtesseract5Ressources_rc # Import des images
 
 
-##########################
-### Fonctions globales ###
-##########################
 #############################################################################
 def LittleProcess(Command):
     """Petite fonction reccupérant les retours de process simples."""
@@ -53,9 +50,26 @@ def LittleProcess(Command):
 #############################################################################
 def TesseractConvert(File):
     """Fonction clée permettant la conversion des images en textes avec Tesseract."""
-    ### En cas d'annulation du travail
-    if GlobalVar["ProgressDialog"].wasCanceled():
+    ### En cas d'annulation du travail via le soft
+    if not GlobalVar["ProgressDialogClose"]:
         return
+
+    ### En cas d'annulation du travail via un fichier exterieur
+    elif Path(GlobalVar["FolderTemp"], "Stop").exists():
+        GlobalVar["ProgressDialog"].reject()
+        GlobalVar["ProgressDialogClose"] = 0
+        return
+
+
+    ### En cas de pause, utilisation d'un fichier pour permettre de mettre en pause depuis l'exterieur
+    while Path(GlobalVar["FolderTemp"], "Pause").exists():
+        ## Si la fenetre est fermée pendant la pause, on quite
+        if not GlobalVar["ProgressDialogClose"] or Path(GlobalVar["FolderTemp"], "Stop").exists():
+            return
+
+        ## Sinon on attend la reprise
+        else:
+            sleep(1)
 
 
     ### Création du QProcess avec unification des 2 sorties (normale + erreur)
@@ -68,23 +82,48 @@ def TesseractConvert(File):
 
 
     ### Calcul de la progression
-    if not GlobalVar["q"]:
-        ## Décompte du nombre de fichier traité avec création du pourcentage
-        GlobalVar["FilesDone"] += 1
+    ## Décompte du nombre de fichier traité avec création du pourcentage
+    GlobalVar["FilesDone"] += 1
+
+    ## Progression de la fenetre ne necessitant pas de calcul
+    if not GlobalVar["g"]:
+        GlobalVar["ProgressBar"].setValue(GlobalVar["FilesDone"])
+
+    ## Progression pourcentage
+    elif not GlobalVar["p"]:
         GlobalVar["Pourcentage"] = int((GlobalVar["FilesDone"] * 100) / GlobalVar["TotalSubtitles"])
 
         ## Envoie du pourcentage si different du précédant
         if GlobalVar["OldPourcentage"] != GlobalVar["Pourcentage"]:
-            # Progression de la fenetre
-            if not GlobalVar["g"]:
-                GlobalVar["ProgressDialog"].setValue(GlobalVar["Pourcentage"])
-
-            # Progression renvoyé en texte
-            else:
-                print(str(GlobalVar["Pourcentage"]), file=sys.stdout)
+            print(str(GlobalVar["Pourcentage"]), file=sys.stdout)
 
             # Variable anti doublon
             GlobalVar["OldPourcentage"] = GlobalVar["Pourcentage"]
+
+
+    ### Recherche des fichiers txt
+    ImageFile = Path(File)
+    TxtFile = Path("{}.txt".format(ImageFile))
+
+    if TxtFile.stat().st_size == 0: # Si le fichier est vide 0ko
+        ## Hash le fichier
+        FileHash = bytes(QCryptographicHash.hash(ImageFile.open("rb").read(), QCryptographicHash.Md5).toHex()).decode('utf-8')
+
+        ## Si le FileHash existe déjà, c'est une image doublon
+        if FileHash in GlobalVar["MD5Dico"].keys():
+            # Ajout du fichier a la liste en lien avec le hash si le fichier n'est pas déjà dans la liste
+            #if ImageFile not in GlobalVar["MD5Dico"][FileHash]:
+            GlobalVar["MD5Dico"][FileHash].append(ImageFile)
+
+        ## Si le FileHash n'existe pas, ajout d'une nouvelle paire FileHash : fichier
+        else:
+            GlobalVar["MD5Dico"][FileHash] = [ImageFile]
+
+
+    ## Si c'était le dernier fichier, on cache la fenetre
+    if GlobalVar["FilesDone"] == GlobalVar["TotalSubtitles"]:
+        GlobalVar["ProgressDialog"].accept()
+
 
 
 #############################################################################
@@ -95,6 +134,7 @@ def ErrorMessages(Message):
 
     else:
         print(Message, file=sys.stderr)
+
 
 
 #############################################################################
@@ -111,105 +151,82 @@ def QuitError(Text):
 
 
 #############################################################################
-class Qtesseract5(QMainWindow):
-    """Class permettant la gestion graphique des textes manquants."""
-    def __init__(self, parent=None):
-        """Fonction d'initialisation appelée au lancement de la classe."""
-        ### Commandes à ne pas toucher
-        super(Qtesseract5, self).__init__(parent)
-        self.ui = Ui_Qtesseract5()
-        self.ui.setupUi(self) # Lance la fonction définissant tous les widgets du fichier UI
+def PauseTaf():
+    if Path(GlobalVar["FolderTemp"], "Pause").exists():
+        Path(GlobalVar["FolderTemp"], "Pause").unlink()
 
-
-        ##################
-        ### Connexions ###
-        ##################
-        self.ui.sub_next.clicked.connect(lambda: (self.TextUpdate(), self.IMGViewer(1)))
-        self.ui.sub_previous.clicked.connect(lambda: (self.TextUpdate(), self.IMGViewer(-1)))
-        self.ui.sub_finish.clicked.connect(lambda: (self.TextUpdate(), self.close()))
-
-
-        ####################################
-        ### Positionnement de la fenetre ###
-        ####################################
-        size_ecran = QDesktopWidget().screenGeometry() # Taille de l'écran
-        self.move((size_ecran.width() - self.geometry().width()) / 2, (size_ecran.height() - self.geometry().height()) / 2)
-
-
-        ##############################
-        ### Lancement des fenetres ###
-        ##############################
-        ## Appelle de la fonction qui affiche le texte et l'image
-        self.IMGViewer(0)
+    else:
+        Path(GlobalVar["FolderTemp"], "Pause").touch()
 
 
 
-
-    #========================================================================
-    def IMGViewer(self, change):
-        """Fonction de gestion de conversion manuelle des sous titres."""
-        ### Mise à jour des variables
-        Var = GlobalVar["RecognizedNumber"] + change
-        GlobalVar["RecognizedNumber"] = Var # Mise à jour du numéro à traiter (0 , +1, -1)
-        md5Key = list(GlobalVar["MD5Dico"].keys())[GlobalVar["RecognizedNumber"]] # Récupération d'une clé
-        img = GlobalVar["MD5Dico"][md5Key][0] # Sélectionne la 1ere image de la clé
-        txt = Path("{}.txt".format(img)) # Adresse du fichier texte
-
-
-        ### Affichage de l'image
-        self.ui.image_viewer.setPixmap(QPixmap(str(img)))
-        self.ui.image_viewer.setStatusTip(QCoreApplication.translate("main", "File with the hash: {}.").format(md5Key))
+#############################################################################
+def IMGViewer(change):
+    """Fonction de gestion de conversion manuelle des sous titres."""
+    ### Mise à jour des variables
+    Var = GlobalVar["RecognizedNumber"] + change
+    GlobalVar["RecognizedNumber"] = Var # Mise à jour du numéro à traiter (0 , +1, -1)
+    md5Key = list(GlobalVar["MD5Dico"].keys())[GlobalVar["RecognizedNumber"]] # Récupération d'une clé
+    img = GlobalVar["MD5Dico"][md5Key][0] # Sélectionne la 1ere image de la clé
+    txt = Path("{}.txt".format(img)) # Adresse du fichier texte
 
 
-        ### Progression du travail
-        Pourcentage = int(((GlobalVar["RecognizedNumber"] + 1) * 100) / GlobalVar["RecognizedTotal"])
-        self.ui.progressBar.setValue(Pourcentage)
+    ### Affichage de l'image
+    GlobalVar["ImageViewer"].setPixmap(QPixmap(str(img)))
+    GlobalVar["ImageViewer"].setStatusTip(QCoreApplication.translate("main", "File with the hash: {}.").format(md5Key))
 
 
-        ### Modifications graphiques
-        if GlobalVar["RecognizedNumber"] + 1 == GlobalVar["RecognizedTotal"]:
-            ## Blocage du bouton suivant
-            self.ui.sub_next.setEnabled(False)
-            self.ui.sub_finish.setFocus(Qt.TabFocusReason)
-
-        else:
-            ## Déblocage du bouton suivant
-            self.ui.sub_next.setEnabled(True)
-            self.ui.sub_next.setFocus(Qt.TabFocusReason)
-
-        if GlobalVar["RecognizedNumber"] == 0:
-            ## Blocage du bouton précédant
-            self.ui.sub_previous.setEnabled(False)
-            self.ui.sub_next.setFocus(Qt.TabFocusReason)
-        else:
-            ## Déblocage du bouton précédant
-            self.ui.sub_previous.setEnabled(True)
-            self.ui.sub_next.setFocus(Qt.TabFocusReason)
+    ### Progression du travail
+    Pourcentage = int(((GlobalVar["RecognizedNumber"] + 1) * 100) / GlobalVar["RecognizedTotal"])
+    GlobalVar["ImageProgress"].setValue(Pourcentage)
 
 
-        ### Si le fichier texte n'est plus vide (en cas de retour en arrière)
-        if txt.stat().st_size > 0:
-            with txt.open("r") as SubFile:
-                text = SubFile.read()
-                self.ui.sub_text.setPlainText(text)
+    ### Modifications graphiques
+    if GlobalVar["RecognizedNumber"] + 1 == GlobalVar["RecognizedTotal"]:
+        ## Blocage du bouton suivant
+        GlobalVar["ImageNext"].setEnabled(False)
+        GlobalVar["ImageFinish"].setFocus(Qt.TabFocusReason)
+
+    else:
+        ## Déblocage du bouton suivant
+        GlobalVar["ImageNext"].setEnabled(True)
+        GlobalVar["ImageNext"].setFocus(Qt.TabFocusReason)
+
+    if GlobalVar["RecognizedNumber"] == 0:
+        ## Blocage du bouton précédant
+        GlobalVar["ImagePrevious"].setEnabled(False)
+        GlobalVar["ImageNext"].setFocus(Qt.TabFocusReason)
+    else:
+        ## Déblocage du bouton précédant
+        GlobalVar["ImagePrevious"].setEnabled(True)
+        GlobalVar["ImageNext"].setFocus(Qt.TabFocusReason)
 
 
-    #========================================================================
-    def TextUpdate(self):
-        """Fonction d'écriture du texte de la conversion manuelle des sous titres."""
-        ### Récupération du texte et de la clé
-        SubText, md5Key = self.ui.sub_text.toPlainText(), list(GlobalVar["MD5Dico"].keys())[GlobalVar["RecognizedNumber"]]
+    ### Si le fichier texte n'est plus vide (en cas de retour en arrière)
+    if txt.stat().st_size > 0:
+        with txt.open("r") as SubFile:
+            text = SubFile.read()
+            GlobalVar["ImageTranslate"].setPlainText(text)
 
 
-        ### Si le texte n'est pas vide, on met à jour les fichiers txt
-        if SubText:
-            ## Traite les images ayant le même md5
-            for ImgFile in GlobalVar["MD5Dico"][md5Key]:
-                with open("{}.txt".format(ImgFile), "w") as SubFile:
-                    SubFile.write(SubText)
 
-            ## Mise au propre du texte
-            self.ui.sub_text.clear()
+#############################################################################
+def TextUpdate():
+    """Fonction d'écriture du texte de la conversion manuelle des sous titres."""
+    ### Récupération du texte et de la clé
+    SubText, md5Key = GlobalVar["ImageTranslate"].toPlainText(), list(GlobalVar["MD5Dico"].keys())[GlobalVar["RecognizedNumber"]]
+
+
+    ### Si le texte n'est pas vide, on met à jour les fichiers txt
+    if SubText:
+        ## Traite les images ayant le même md5
+        for ImgFile in GlobalVar["MD5Dico"][md5Key]:
+            with open("{}.txt".format(ImgFile), "w") as SubFile:
+                SubFile.write(SubText)
+
+        ## Mise au propre du texte
+        GlobalVar["ImageTranslate"].clear()
+
 
 
 #############################################################################
@@ -220,7 +237,7 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     app.setApplicationVersion("1.0") # version de l'application
     app.setApplicationName("Qtesseract5") # nom de l'application
-    app.setWindowIcon(QIcon.fromTheme("mkv-extractor-qt5", QIcon(":/img/mkv-extractor-qt5.png"))) # icone de l'application
+    app.setWindowIcon(QIcon.fromTheme("qtesseract5", QIcon(":/img/qtesseract5.png"))) # icone de l'application
 
     GlobalVar = {} # Dictionnaire contenant toutes les variables
 
@@ -261,9 +278,11 @@ if __name__ == '__main__':
     ########################
     ### Création des options
     qOption = QCommandLineOption(["q", "quiet"], QCoreApplication.translate("main", "Don't reply informations, optionally."), "", "False")
+    pOption = QCommandLineOption(["p", "pourcentage"], QCoreApplication.translate("main", "Don't reply progression in no gui mode, optionally."), "", "False")
     gOption = QCommandLineOption(["g", "no-gui"], QCoreApplication.translate("main", "Hide the progress dialog."), "", "False")
     lOption = QCommandLineOption(["l", "language"], QCoreApplication.translate("main", "Language to use for Tesseract ({})."), QCoreApplication.translate("main", "Lang"), "")
     cOption = QCommandLineOption(["c", "cpu"], QCoreApplication.translate("main", "Number of cpu to use, by default is the max."), QCoreApplication.translate("main", "Number"), str(QThread.idealThreadCount()))
+    oOption = QCommandLineOption(["o", "open"], QCoreApplication.translate("main", "Automatically open the SRT file created."), "", "False")
 
 
     ### Création du parser
@@ -275,6 +294,8 @@ if __name__ == '__main__':
     parser.addOption(qOption)
     parser.addOption(lOption)
     parser.addOption(cOption)
+    parser.addOption(oOption)
+    parser.addOption(pOption)
     parser.addPositionalArgument(QCoreApplication.translate("main", "source"), QCoreApplication.translate("main", "Source IDX file to translate."))
     parser.addPositionalArgument(QCoreApplication.translate("main", "destination"), QCoreApplication.translate("main", "Destination SRT file translated."))
     parser.process(app)
@@ -288,8 +309,16 @@ if __name__ == '__main__':
     GlobalVar["q"] = parser.isSet(qOption)
 
 
+    ### Mode sans pourcentage
+    GlobalVar["p"] = parser.isSet(pOption)
+
+
     ### Nombre de cpu à utiliser
     GlobalVar["c"] = int(parser.value(cOption))
+
+
+    ### Ouverture automatique du fichier srt
+    GlobalVar["o"] = parser.isSet(oOption)
 
 
     ### Création d'un dossier temporaire
@@ -299,8 +328,7 @@ if __name__ == '__main__':
         if GlobalVar["FolderTempWidget"].isValid():
             GlobalVar["FolderTemp"] = Path(GlobalVar["FolderTempWidget"].path()) # Dossier temporaire
 
-            if not GlobalVar["q"]:
-                print(QCoreApplication.translate("main", "Temporary folder: {}").format(GlobalVar["FolderTemp"]), file=sys.stdout)
+            print("Temporary folder: {}".format(GlobalVar["FolderTemp"]), file=sys.stdout)
 
             break
 
@@ -335,26 +363,46 @@ if __name__ == '__main__':
             GlobalVar[executable] = y
 
 
-    ### Fichiers d'entrée et de sortie en mode visuel
+    ### Fichiers d'entrée
     ## Mode graphique si besoin
-    if len(parser.positionalArguments()) < 2:
-        ## Fichier IDX d'entrée
+    if len(parser.positionalArguments()) == 1 :
+        # Regarde si l'argument donné est un fichier IDX
+        if Path(parser.positionalArguments()[-1]).suffix in ("idx", "IDX"):
+            GlobalVar["IDX"] = Path(parser.positionalArguments()[-1])
+
+        # Regarde si l'argument donné est un fichier SUB
+        elif Path(parser.positionalArguments()[-1]).suffix in ("sub", "SUB"):
+            GlobalVar["IDX"] = Path(parser.positionalArguments()[-1]).with_suffix("idx")
+
+        else:
+            ## Fichier IDX d'entrée
+            GlobalVar["IDX"] = Path(QFileDialog.getOpenFileName(None, QCoreApplication.translate("main", "Select the IDX file to translate"), QDir.homePath(), "IDX file (*.idx)")[0])
+
+    ## Mode arguments
+    elif len(parser.positionalArguments()) == 2:
+        GlobalVar["IDX"] = Path(parser.positionalArguments()[-2])
+
+    else:
         GlobalVar["IDX"] = Path(QFileDialog.getOpenFileName(None, QCoreApplication.translate("main", "Select the IDX file to translate"), QDir.homePath(), "IDX file (*.idx)")[0])
 
+
+    ## Teste du fichier
+    if not GlobalVar["IDX"].is_file():
+        QuitError(QCoreApplication.translate("main", "Error: The IDX input file doesn't exists.").format(executable))
+
+
+    ### Fichiers de sortie
+    ## Mode graphique si besoin
+    if len(parser.positionalArguments()) < 2:
         ## Fichier SRT de sortie
         GlobalVar["SRT"] = Path(QFileDialog.getSaveFileName(None, QCoreApplication.translate("main", "Select the output SRT file translated"), QDir.homePath(), "Text file (*.srt *.txt)")[0])
 
     ## Mode arguments
     else:
-        GlobalVar["IDX"] = Path(parser.positionalArguments()[-2])
         GlobalVar["SRT"] = Path(parser.positionalArguments()[-1])
 
-
-        if not GlobalVar["IDX"].is_file():
-            QuitError(QCoreApplication.translate("main", "Error: The IDX input file doesn't exists.").format(executable))
-
-        if GlobalVar["SRT"].is_dir():
-            QuitError(QCoreApplication.translate("main", "Error: Qtesseract5 need a SRT output file.").format(executable))
+    if GlobalVar["SRT"].is_dir():
+        QuitError(QCoreApplication.translate("main", "Error: Qtesseract5 need a SRT output file.").format(executable))
 
 
     ### Langue à utiliser
@@ -412,11 +460,49 @@ if __name__ == '__main__':
     GlobalVar["FilesDone"] = 0
     GlobalVar["OldPourcentage"] = -1
     GlobalVar["Pourcentage"] = 0
-    GlobalVar["ProgressDialog"] = QProgressDialog(QCoreApplication.translate("main", "Tesseract progress"), QCoreApplication.translate("main", "Stop work"), 0, 100, None)
-    GlobalVar["ProgressDialog"].setWindowModality(Qt.WindowModal)
-    GlobalVar["ProgressDialog"].setMinimumHeight(100)
-    GlobalVar["ProgressDialog"].setMinimumWidth(300)
 
+    # Création de la fenetre de progression
+    GlobalVar["ProgressDialogClose"] = 1 # type de fermeture 1 pour ok et 0 pour echec
+    GlobalVar["ProgressDialog"] = QDialog(None)
+    GlobalVar["ProgressDialog"].setFixedSize(450, 125)
+    GlobalVar["ProgressDialog"].setWindowFlags(Qt.WindowTitleHint | Qt.WindowCloseButtonHint)
+    GlobalVar["ProgressBar"] = QProgressBar(None)
+    GlobalVar["ProgressBar"].setTextVisible(False)
+    GlobalVar["ProgressBar"].setMinimum(0)
+
+    Label = QLabel(QCoreApplication.translate("main", "Convertion of the images by Tesseract in progress..."), GlobalVar["ProgressDialog"])
+    Label.setAlignment(Qt.AlignCenter)
+    Label.setWordWrap(True)
+
+    Image = QLabel(GlobalVar["ProgressDialog"])
+    Image.setPixmap(QIcon.fromTheme("qtesseract5", QIcon(":/img/qtesseract5.png")).pixmap(96, 96))
+    Image.setMinimumHeight(96)
+    Image.setMinimumWidth(96)
+
+    StopButton = QPushButton(QIcon.fromTheme("process-stop", QIcon(":/img/process-stop.png")), QCoreApplication.translate("main", "Stop work"), None)
+    StopButton.clicked.connect(lambda: GlobalVar["ProgressDialog"].reject())
+
+    PauseButton = QPushButton(QIcon.fromTheme("media-playback-pause", QIcon(":/img/media-playback-pause.png")), QCoreApplication.translate("main", "Pause"), None)
+    PauseButton.setDefault(True)
+    PauseButton.clicked.connect(PauseTaf)
+
+    Spacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+    HLayout = QHBoxLayout(None)
+    HLayout.addWidget(StopButton)
+    HLayout.addItem(Spacer)
+    HLayout.addWidget(PauseButton)
+
+    VLayout = QVBoxLayout(None)
+    VLayout.addWidget(Label)
+    VLayout.addWidget(GlobalVar["ProgressBar"])
+    VLayout.addLayout(HLayout)
+
+    Caca = QHBoxLayout(None)
+    Caca.addWidget(Image)
+    Caca.addLayout(VLayout)
+
+    GlobalVar["ProgressDialog"].setLayout(Caca)
 
 
     ##################################
@@ -444,6 +530,10 @@ if __name__ == '__main__':
         print(QCoreApplication.translate("main", "{} files generated.").format(GlobalVar["TotalSubtitles"]), file=sys.stdout)
 
 
+    ### Indique à la barre de progression de le nombre de fichier pour eviter les calculs
+    GlobalVar["ProgressBar"].setMaximum(GlobalVar["TotalSubtitles"])
+
+
     ### Création d'une liste des fichiers sous titres
     for ImageFile in ["*.pgm", "*.tif"]:
         GlobalVar["SubImgFiles"].extend(GlobalVar["FolderTemp"].glob(ImageFile))
@@ -460,42 +550,67 @@ if __name__ == '__main__':
 
             # Dans le cas de l'utilisation d'une fenetre de progresion
             if not GlobalVar["g"]:
-                GlobalVar["ProgressDialog"].exec()
+                GlobalVar["ProgressDialogClose"] = GlobalVar["ProgressDialog"].exec()
 
-        # Dans le cas de l'utilisation d'une fenetre de progresion qui a été annulée
-        if not GlobalVar["g"]and GlobalVar["ProgressDialog"].wasCanceled():
+        ## Dans le cas de l'utilisation d'une fenetre de progresion qui a été annulée
+        if not GlobalVar["q"] and not GlobalVar["ProgressDialogClose"]:
             QuitError(QCoreApplication.translate("main", "Error: The work has been canceled."))
-
-
-    ### Recherche des fichiers txt
-    for TxtFile in GlobalVar["FolderTemp"].glob("*.txt"):
-        if TxtFile.stat().st_size == 0: # Si le fichier est vide 0ko
-            ## Récupère le nom du fichier image (enlève l'extension .txt)
-            Image = Path(TxtFile.parent, TxtFile.stem)
-
-            ## Hash le fichier
-            FileHash = bytes(QCryptographicHash.hash(Image.open("rb").read(), QCryptographicHash.Md5).toHex()).decode('utf-8')
-
-            ## Si le FileHash existe déjà, c'est une image doublon
-            if FileHash in GlobalVar["MD5Dico"].keys():
-                # Ajout du fichier a la liste en lien avec le hash si le fichier n'est pas déjà dans la liste
-                if Image not in GlobalVar["MD5Dico"][FileHash]:
-                    GlobalVar["MD5Dico"][FileHash].append(Image)
-
-            ## Si le FileHash n'existe pas, ajout d'une nouvelle paire FileHash : fichier
-            else:
-                GlobalVar["MD5Dico"][FileHash] = [Image]
 
 
     ### Si le dico contient des fichiers à reconnaître manuellement
     if GlobalVar["MD5Dico"]:
         GlobalVar["RecognizedTotal"] = len(GlobalVar["MD5Dico"]) # Nombre de soustitres à traiter
 
-        ## Affichage de la fenetre graphique
-        qtesseract5 = Qtesseract5()
-        qtesseract5.setAttribute(Qt.WA_DeleteOnClose)
-        qtesseract5.show()
-        app.exec()
+        ## Création de la fenetre de reconnaissance manuelle
+        GlobalVar["HandConvertDialog"] = QDialog(None)
+        GlobalVar["HandConvertDialog"].setMinimumHeight(275)
+        GlobalVar["HandConvertDialog"].setMinimumWidth(525)
+        GlobalVar["HandConvertDialog"].setWindowFlags(Qt.WindowTitleHint)
+
+        Label = QLabel(QCoreApplication.translate("main", "Tesseract couldn't recognize the subtitle file. It must be done manually."), GlobalVar["HandConvertDialog"])
+        Label.setAlignment(Qt.AlignCenter)
+
+        GlobalVar["ImageViewer"] = QLabel(GlobalVar["HandConvertDialog"])
+        GlobalVar["ImageViewer"].setMinimumHeight(70)
+        GlobalVar["ImageViewer"].setAlignment(Qt.AlignCenter)
+
+        GlobalVar["ImageProgress"] = QProgressBar(GlobalVar["HandConvertDialog"])
+        GlobalVar["ImageProgress"].setTextVisible(False)
+        GlobalVar["ImageProgress"].setMinimum(1)
+        GlobalVar["ImageProgress"].setMaximum(GlobalVar["RecognizedTotal"])
+
+        GlobalVar["ImageTranslate"] = QPlainTextEdit(GlobalVar["HandConvertDialog"])
+
+        GlobalVar["ImagePrevious"] = QPushButton(QIcon.fromTheme("go-previous", QIcon(":/img/go-previous.png")), QCoreApplication.translate("main", "Previous image"), None)
+        GlobalVar["ImagePrevious"].clicked.connect(lambda: (TextUpdate(), IMGViewer(-1)))
+
+        GlobalVar["ImageFinish"] = QPushButton(QIcon.fromTheme("dialog-ok", QIcon(":/img/dialog-ok.png")), QCoreApplication.translate("main", "I'm finish"), None)
+        GlobalVar["ImageFinish"].clicked.connect(lambda: (TextUpdate(), GlobalVar["HandConvertDialog"].accept()))
+
+        GlobalVar["ImageNext"] = QPushButton(QIcon.fromTheme("go-next", QIcon(":/img/go-next.png")), QCoreApplication.translate("main", "Next image"), None)
+        GlobalVar["ImageNext"].clicked.connect(lambda: (TextUpdate(), IMGViewer(1)))
+
+        Spacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        HLayout = QHBoxLayout(None)
+        HLayout.addWidget(GlobalVar["ImagePrevious"])
+        HLayout.addItem(Spacer)
+        HLayout.addWidget(GlobalVar["ImageFinish"])
+        HLayout.addItem(Spacer)
+        HLayout.addWidget(GlobalVar["ImageNext"])
+
+        VLayout = QVBoxLayout(None)
+        VLayout.addWidget(Label)
+        VLayout.addWidget(GlobalVar["ImageViewer"])
+        VLayout.addWidget(GlobalVar["ImageProgress"])
+        VLayout.addWidget(GlobalVar["ImageTranslate"])
+        VLayout.addLayout(HLayout)
+
+        GlobalVar["HandConvertDialog"].setLayout(VLayout)
+
+        IMGViewer(0)
+
+        GlobalVar["HandConvertDialog"].exec()
 
 
     ### Création du fichier srt
@@ -504,13 +619,20 @@ if __name__ == '__main__':
 
     ### Teste du fichier et arret du logiciel
     if GlobalVar["SRT"].exists():
+        ## Indique que tout est ok
         if not GlobalVar["q"]:
-            QMessageBox.information(None, QCoreApplication.translate("main", "Work Finished"), QCoreApplication.translate("main", "The SRT file is created."))
+            if not GlobalVar["g"]:
+                QMessageBox.information(None, QCoreApplication.translate("main", "Work Finished"), QCoreApplication.translate("main", "The SRT file is created."))
 
-        else:
-            print(QCoreApplication.translate("main", "The SRT file is created."), file=sys.stdout)
+            else:
+                print(QCoreApplication.translate("main", "The SRT file is created."), file=sys.stdout)
+
+            # Ouverture automatique du fichier srt créé
+            if GlobalVar["o"]:
+                QDesktopServices.openUrl(QUrl.fromLocalFile(str(GlobalVar["SRT"])))
 
     else:
+        ## Renvoie un erreur de création
         QuitError(QCoreApplication.translate("main", "Error: SRT file isn't created."))
 
 

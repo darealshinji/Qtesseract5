@@ -3,7 +3,8 @@
     <file>img/dialog-ok.png</file>
     <file>img/go-next.png</file>
     <file>img/go-previous.png</file>
-    <file>img/mkv-extractor-qt5.png</file>
-    <file>img/preferences-desktop-locale.png</file>
+    <file>img/qtesseract5.png</file>
+    <file>img/process-stop.png</file>
+    <file>img/media-playback-pause.png</file>
   </qresource>
 </RCC>

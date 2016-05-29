@@ -1,0 +1,15 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Name=Qtesseract5
+GenericName=SUB Converter
+GenericName[fr]=Convertisseur SUB
+Comment=Convert the SUB files to SRT files
+Comment[fr]=Convertisseur de fichiers SUB en fichiers SRT
+Exec=qtesseract5 %U
+Icon=qtesseract5
+Categories=AudioVideo;AudioVideoEditing;
+Terminal=false
+StartupNotify=true
+MimeType=text/plain; text/x-microdvd;text/x-mpsub;text/subviewer

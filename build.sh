@@ -23,9 +23,3 @@ pylupdate5 ui_Qtesseract5.ui Qtesseract5.py -ts Qtesseract5_fr_FR.ts
 
 # Création d'un fichier source python (contient les icones)
 pyrcc5 Qtesseract5Ressources.qrc -o Qtesseract5Ressources_rc.py
-
-# Conversion de l'interface graphique en fichier python
-pyuic5 ui_Qtesseract5.ui -o ui_Qtesseract5.py
-
-# Creation d'un systeme d'icone de secoure sur le fichier python ci-dessus
-sed -i '/icon = QtGui.QIcon.fromTheme/ s@\([^"]*\)"\([^"]*\)")@\1"\2", QtGui.QIcon(":/img/\2.png"))@g' ui_Qtesseract5.py
