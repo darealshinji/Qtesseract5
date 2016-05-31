@@ -15,7 +15,7 @@ chemin="$(cd "$(dirname "$0")";pwd)"
 cd "${chemin}"
 
 # Mise à jour des fichiers ts
-pylupdate5 ui_Qtesseract5.ui Qtesseract5.py -ts Qtesseract5_fr_FR.ts
+pylupdate5 Qtesseract5.py -ts Qtesseract5_fr_FR.ts
 
 # Convertion des fichiers ts en qm
 [[ -e "/usr/lib/x86_64-linux-gnu/qt5/bin/lrelease" ]] && /usr/lib/x86_64-linux-gnu/qt5/bin/lrelease *.ts
