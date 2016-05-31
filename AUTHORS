@@ -1,0 +1,8 @@
+Software creator: Terence Belleguic <hizo@free.fr>
+
+The icon origin is Oxygen theme: https://techbase.kde.org/Projects/Oxygen
+
+Tesseract-ocr is used for convert the SUB/IDX subtiltes to SRT file: https://github.com/tesseract-ocr
+
+The windows displayed are in pyQt5: http://doc.qt.io/
+
