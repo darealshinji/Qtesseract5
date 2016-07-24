@@ -1,0 +1,5 @@
+Software creator: Terence Belleguic <hizo@free.fr>
+
+Tesseract-ocr is used for convert the SUB/IDX subtiltes to SRT file: https://github.com/tesseract-ocr
+
+For the texts who are not converted, windows in pyQt5 are displayed: http://doc.qt.io/

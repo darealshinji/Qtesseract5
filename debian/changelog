@@ -1,0 +1,9 @@
+qtesseract5 (1.0-0~vivid) vivid; urgency=low ()
+
+  [english]
+    - Package created
+
+  [français]
+    - Creation du paquet
+
+ -- hizoka <hizo@free.fr>  Mon, 18 Apr 2016 12:29:40 +0200
