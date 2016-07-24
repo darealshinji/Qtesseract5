@@ -1,4 +1,22 @@
-qtesseract5 (1.1-0~xenial) xenial; urgency=low ()
+qtesseract5 (1.2-0~xenial) xenial; urgency=low ()
+
+  [english]
+    - Big code change
+    - Add a pause system
+    - Add of a auto open srt file option
+    - Update of the man file
+    - Création of a icon in svg
+
+  [français]
+    - Grosse Modification du code
+    - Ajout d'un system de pause
+    - Ajout d'une option d'ouverture automatiquement du fichier srt
+    - Mise à jour du fichier man
+    - Creation d'une icone en svg
+
+ -- hizoka <hizo@free.fr>  Tue, 10 May 2016 19:05:26 +0200
+
+qtesseract5 (1.1-2~xenial) xenial; urgency=low ()
 
   [english]
     - Package created

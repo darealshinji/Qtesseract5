@@ -1,3 +1,4 @@
+*.desktop      usr/share/applications
 *.py           usr/share/qtesseract5
 *.qm           usr/share/qtesseract5
 icons/*        usr/share/icons/hicolor
