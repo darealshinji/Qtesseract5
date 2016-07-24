@@ -1,9 +1,11 @@
-qtesseract5 (1.0-0~vivid) vivid; urgency=low ()
+qtesseract5 (1.1-0~xenial) xenial; urgency=low ()
 
   [english]
     - Package created
+    - Add manpage
 
   [français]
     - Creation du paquet
+    - Ajout d'un manpage
 
  -- hizoka <hizo@free.fr>  Mon, 18 Apr 2016 12:29:40 +0200
