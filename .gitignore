@@ -5,6 +5,7 @@ __pycache__/
 # compiled Qt translations
 *.qm
 
+Qtesseract5Ressources.qrc
 Qtesseract5Ressources_rc.py
 tmp*
 
