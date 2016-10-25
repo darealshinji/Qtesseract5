@@ -1,3 +1,29 @@
+qtesseract5 (2.0-0~xenial) xenial; urgency=low ()
+
+  [english]
+     - Creation of an entire desktop environment (optional)
+     - Add and edit multiple control options
+     - Important changes to the code
+     - Update Translation
+     - New icon for the software
+     - Use Breeze theme for rescue icons
+     - Possibility to "open with" on idx files and sub
+     - Manfile update
+     - Manfile translate in french
+
+  [français]
+    - Creation de tout un environnement graphique (facultatif)
+    - Ajout et modification de nombreuses options de commande
+    - Importantes modifications du code
+    - Mise a jour de la traduction
+    - Nouvelle icone pour le logiciel
+    - Utilisation du theme Breeze pour les icones de secours
+    - Possibilite de faire "ouvrir avec" sur les fichiers idx et sub
+    - Mise a jour du fichier man
+    - Traduction en francais du fichier man
+
+ -- hizoka <hizo@free.fr>  Sun, 11 Sep 2016 17:53:22 +0200
+
 qtesseract5 (1.2-0~xenial) xenial; urgency=low ()
 
   [english]

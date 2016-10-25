@@ -1,4 +1,5 @@
-*.desktop      usr/share/applications
-*.py           usr/share/qtesseract5
-*.qm           usr/share/qtesseract5
-icons/*        usr/share/icons/hicolor
+*.desktop               usr/share/applications
+*.py                    usr/share/qtesseract5
+*.qm                    usr/share/qtesseract5
+icons/*                 usr/share/icons/hicolor
+WhatsUp/*               usr/share/qtesseract5/WhatsUp

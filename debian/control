@@ -22,4 +22,4 @@ Recommends:
  tesseract-ocr-eng
 Homepage: http://forum.ubuntu-fr.org/viewtopic.php?id=1508741
 Description: Convert the SUB/IDX subtiltes to SRT file
- Mini gui for convert the files
+ Gui for convert SUB/IDX subtiltes to SRT with many options.
