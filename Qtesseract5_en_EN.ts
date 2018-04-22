@@ -4,7 +4,7 @@
 <context>
     <name>CheckTextDialog</name>
     <message numerus="yes">
-        <location filename="Qtesseract5.py" line="1835"/>
+        <location filename="Qtesseract5.py" line="1848"/>
         <source>%n subtitle(s) file(s) were not recognized or diacritic were detected.
 The files converted with the custom colors are present too with their texts.
 Check or write manually this text(s).</source>
@@ -19,7 +19,7 @@ Check or write manually this texts.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="Qtesseract5.py" line="1838"/>
+        <location filename="Qtesseract5.py" line="1851"/>
         <source>%n subtitle(s) file(s) were not recognized or diacritic were detected.
 Check or write manually this text(s).</source>
         <comment>%n is the number of subtitle</comment>
@@ -31,7 +31,7 @@ Check or write manually this texts.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="Qtesseract5.py" line="1863"/>
+        <location filename="Qtesseract5.py" line="1876"/>
         <source>%n file(s) with the hash: {}.</source>
         <comment>%n is the number of subtitle with the same hash.</comment>
         <translation>
@@ -43,7 +43,7 @@ Check or write manually this texts.</numerusform>
 <context>
     <name>ProgressDialog</name>
     <message numerus="yes">
-        <location filename="Qtesseract5.py" line="1373"/>
+        <location filename="Qtesseract5.py" line="1386"/>
         <source>Convertion of %n image(s) by Tesseract with custom colors in progress...</source>
         <comment>%n is the number of image</comment>
         <translation>
@@ -52,7 +52,7 @@ Check or write manually this texts.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="Qtesseract5.py" line="1377"/>
+        <location filename="Qtesseract5.py" line="1390"/>
         <source>Convertion of %n image(s) by Tesseract in progress...</source>
         <comment>%n is the number of image</comment>
         <translation>
@@ -76,7 +76,7 @@ Check or write manually this texts.</numerusform>
 <context>
     <name>main</name>
     <message numerus="yes">
-        <location filename="Qtesseract5.py" line="2024"/>
+        <location filename="Qtesseract5.py" line="2037"/>
         <source>%n file(s) generated with custom colors.</source>
         <comment>%n is the number of images by subp2pgm</comment>
         <translation>
@@ -85,7 +85,7 @@ Check or write manually this texts.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="Qtesseract5.py" line="2027"/>
+        <location filename="Qtesseract5.py" line="2040"/>
         <source>%n file(s) generated.</source>
         <comment>%n is the number of images by subp2pgm</comment>
         <translation>

@@ -15,11 +15,12 @@ chemin="$(cd "$(dirname "$0")";pwd)"
 cd "${chemin}"
 
 
-### Mise à jour des fichiers ts
-pylupdate5 -noobsolete Qtesseract5.py -ts Qtesseract5_fr_FR.ts
+### Mise à jour des fichiers ts -noobsolete
+pylupdate5 Qtesseract5.py -ts Qtesseract5_fr_FR.ts
 
-[[ -e "/usr/lib/x86_64-linux-gnu/qt5/bin/lupdate" ]] && /usr/lib/x86_64-linux-gnu/qt5/bin/lupdate Qtesseract5.py -no-obsolete -pluralonly -ts Qtesseract5_en_EN.ts
-[[ -e "/usr/lib/i386-linux-gnu/qt5/bin/lupdate" ]] && /usr/lib/i386-linux-gnu/qt5/bin/lupdate Qtesseract5.py -no-obsolete -pluralonly -ts Qtesseract5_en_EN.ts
+# -no-obsolete
+[[ -e "/usr/lib/x86_64-linux-gnu/qt5/bin/lupdate" ]] && /usr/lib/x86_64-linux-gnu/qt5/bin/lupdate Qtesseract5.py -pluralonly -ts Qtesseract5_en_EN.ts
+[[ -e "/usr/lib/i386-linux-gnu/qt5/bin/lupdate" ]] && /usr/lib/i386-linux-gnu/qt5/bin/lupdate Qtesseract5.py -pluralonly -ts Qtesseract5_en_EN.ts
 
 
 ### Convertion des fichiers ts en qm

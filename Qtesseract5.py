@@ -21,7 +21,7 @@ from shutil import copyfile, rmtree
 from pathlib import Path # Nécessaire pour la recherche de fichier
 from time import sleep
 
-from PyQt5.QtGui import QIcon, QPixmap, QDesktopServices, QCursor
+from PyQt5.QtGui import QIcon, QPixmap, QDesktopServices, QCursor, QPalette, QBrush, QColor
 from PyQt5.QtWidgets import QApplication, QMessageBox, QPushButton, QFileDialog, QProgressBar, QDialog, QVBoxLayout, QHBoxLayout, QPlainTextEdit, QLabel, QSlider, QLineEdit, QAction, QGroupBox, QComboBox, QCheckBox, QSpinBox, QToolTip, QTextEdit, QRadioButton
 from PyQt5.QtCore import QProcess, QCoreApplication, Qt, QLocale, QTranslator, QLibraryInfo, QCommandLineOption, QCommandLineParser, QTemporaryDir, QStandardPaths, QCryptographicHash, QDir, QThread, QUrl, QEvent, pyqtSignal
 
@@ -184,7 +184,7 @@ class ConfigDialog(QDialog):
         self.TempEntry.addAction(self.TempEntryIcon2, QLineEdit.TrailingPosition)
 
         self.TempOverwrite = QPushButton(QIcon.fromTheme("edit-delete", QIcon(":/img/edit-delete.svg")), "")
-        self.TempOverwrite.setToolTip(QCoreApplication.translate("ConfigDialog", "Remove the temporary folder when closing the software. Be Careful if it's a personal folder."))
+        self.TempOverwrite.setToolTip(QCoreApplication.translate("ConfigDialog", "Remove the temporary folder when closing the software.\nBe Careful if it's a personal folder."))
         self.TempOverwrite.setCheckable(True)
 
         TempLayout = QHBoxLayout(None)
@@ -291,8 +291,8 @@ Level 2: Use only customs colors"))
         self.LanguageBox = QGroupBox(QCoreApplication.translate("ConfigDialog", "Software language:"), self)
         LanguageLayout = QHBoxLayout(None)
         LangComboBox = QComboBox(self.TesseractBox)
-        LangComboBox.addItem(QIcon("/usr/share/locale/l10n/gb/flag.png"), "English")
-        LangComboBox.addItem(QIcon("/usr/share/locale/l10n/fr/flag.png"), "Français")
+        LangComboBox.addItem(QIcon(":/img/en.png"), "English")
+        LangComboBox.addItem(QIcon(":/img/fr.png"), "Français")
 
         if GlobalVar["Lang"] == "fr":
             LangComboBox.setCurrentIndex(1)
@@ -435,7 +435,7 @@ Level 2: Use only customs colors"))
             self.TempEntry.setToolTip(QCoreApplication.translate("ConfigDialog", "Temporary folder to use for files extracted.\nYou can drag the folder here."))
             self.TempEntryIcon1.setText(QCoreApplication.translate("ConfigDialog", "Select folder dialog."))
             self.TempEntryIcon2.setText(QCoreApplication.translate("ConfigDialog", "Recreate a temporary folder in /tmp."))
-            self.TempOverwrite.setToolTip(QCoreApplication.translate("ConfigDialog", "Remove the temporary folder when closing the software. Be Careful if it's a personal folder."))
+            self.TempOverwrite.setToolTip(QCoreApplication.translate("ConfigDialog", "Remove the temporary folder when closing the software.\nBe Careful if it's a personal folder."))
             self.GuiSpin.setPrefix(QCoreApplication.translate("ConfigDialog", "Gui level: "))
             self.GuiSpin.setToolTip(QCoreApplication.translate("ConfigDialog", "Level of the gui.\n0: No window at all.\n1: Only check texts window.\n2: All windows."))
             self.CPUSpin.setPrefix(QCoreApplication.translate("ConfigDialog", "Use "))
@@ -493,14 +493,20 @@ Level 3: Level 2, Convert files names, Dialog creation info, List of the texts t
                           QMessageBox.Close, self)
         Win.setIconPixmap(QPixmap(QIcon.fromTheme("qtesseract5", QIcon(":/img/qtesseract5.png")).pixmap(175)))
         Win.setMinimumWidth(800)
+
         Win.addButton(AboutQt, QMessageBox.HelpRole)
 
         if Path('/usr/share/doc/qtesseract5/changelog.Debian.gz').exists():
             Win.addButton(WhatUpButton, QMessageBox.HelpRole)
 
         Win.setDefaultButton(QMessageBox.Close)
+
         Win.exec()
 
+
+        ### Relance la fenêtre si on acliqué sur les boutons AboutQt ou WhatUpButton
+        if Win.clickedButton() in (AboutQt, WhatUpButton):
+            self.About()
 
 
     #========================================================================
@@ -554,7 +560,7 @@ Level 3: Level 2, Convert files names, Dialog creation info, List of the texts t
         if FilesInFolder:
             if GlobalVar["GuiLevel"] == 2:
                 ErrorMessages(QCoreApplication.translate("ConfigDialog", "The temporary folder must be empty."))
-                self.TempEntry.setStyleSheet("background: yellow")
+                self.TempEntry.setPalette(PalettesWigets["LineEdit"])
                 self.TempEntry.clear()
                 self.CreateCommand()
                 return
@@ -568,7 +574,7 @@ Level 3: Level 2, Convert files names, Dialog creation info, List of the texts t
             ## Message d'erreur
             if GlobalVar["GuiLevel"] == 2:
                 ErrorMessages(QCoreApplication.translate("ConfigDialog", "The temporary folder must be a dir..."))
-                self.TempEntry.setStyleSheet("background: yellow")
+                self.TempEntry.setPalette(PalettesWigets["LineEdit"])
                 self.TempEntry.clear()
                 self.CreateCommand()
                 return
@@ -581,7 +587,7 @@ Level 3: Level 2, Convert files names, Dialog creation info, List of the texts t
             ## Message d'erreur
             if GlobalVar["GuiLevel"] == 2:
                 ErrorMessages(QCoreApplication.translate("ConfigDialog", "The temporary folder cannot be your home dir..."))
-                self.TempEntry.setStyleSheet("background: yellow")
+                self.TempEntry.setPalette(PalettesWigets["LineEdit"])
                 self.TempEntry.clear()
                 self.CreateCommand()
                 return
@@ -606,7 +612,7 @@ Level 3: Level 2, Convert files names, Dialog creation info, List of the texts t
 
 
         ### Coloration du widget
-        self.TempEntry.setStyleSheet("background: ")
+        self.TempEntry.setPalette(self.TempEntry.style().standardPalette())
 
 
         ### Rechargement du code en mode gui (en fait ne le fait pas que lors de la création de la fenêtre de config)
@@ -645,7 +651,7 @@ Level 3: Level 2, Convert files names, Dialog creation info, List of the texts t
         if not Path(Folder).is_dir():
             if GlobalVar["GuiLevel"] == 2:
                 ErrorMessages(QCoreApplication.translate("ConfigDialog", "The Tesseract folder must be a dir..."))
-                self.TesseractEntry.setStyleSheet("background: yellow")
+                self.TesseractEntry.setPalette(PalettesWigets["LineEdit"])
                 self.TesseractEntry.clear()
                 self.TesseractLangComboBox.clear()
                 self.CreateCommand()
@@ -672,7 +678,7 @@ Level 3: Level 2, Convert files names, Dialog creation info, List of the texts t
             ## Message indiquant qu'on remet l'ancien dossier
             if OldFolder and FilesInOldFolder:
                 ErrorMessages(QCoreApplication.translate("ConfigDialog", "The Tesseract folder must contain file(s) *.traineddata.\nUse the old value {}.").format(OldFolder))
-                self.TesseractEntry.setStyleSheet("background: yellow")
+                self.TesseractEntry.setPalette(PalettesWigets["LineEdit"])
                 self.TesseractEntry.clear()
                 self.TesseractLangComboBox.clear()
                 self.CreateCommand()
@@ -727,7 +733,7 @@ Level 3: Level 2, Convert files names, Dialog creation info, List of the texts t
         if len(GlobalVar["TesseractLangs"]) == 0:
             if GlobalVar["GuiLevel"] == 2:
                 ErrorMessages(QCoreApplication.translate("ConfigDialog", "Tesseract hasn't found the languages. The folder haven't languages files."))
-                self.TesseractEntry.setStyleSheet("background: yellow")
+                self.TesseractEntry.setPalette(PalettesWigets["LineEdit"])
                 self.TesseractEntry.clear()
                 self.CreateCommand()
                 return
@@ -740,7 +746,7 @@ Level 3: Level 2, Convert files names, Dialog creation info, List of the texts t
         elif GlobalVar["TesseractLanguage"] not in GlobalVar["TesseractLangs"]:
             if GlobalVar["GuiLevel"] == 2:
                 ErrorMessages(QCoreApplication.translate("ConfigDialog", "The subtitle language ({}) indicate in argument is not avaible in Tesseract languages.").format(GlobalVar["TesseractLanguage"]))
-                self.TesseractEntry.setStyleSheet("background: yellow")
+                self.TesseractEntry.setPalette(PalettesWigets["LineEdit"])
                 self.TesseractEntry.clear()
                 self.CreateCommand()
                 return
@@ -763,7 +769,7 @@ Level 3: Level 2, Convert files names, Dialog creation info, List of the texts t
 
         ### Variable débloquante et remise au propre de la couleur
         GlobalVar["FolderTesseractWait"] = False
-        self.TesseractEntry.setStyleSheet("background: ")
+        self.TesseractEntry.setPalette(self.TesseractEntry.style().standardPalette())
 
 
         ### Rechargement du code en mode gui (en fait ne le fait pas que lors de la création de la fenêtre de config)
@@ -869,19 +875,19 @@ Level 3: Level 2, Convert files names, Dialog creation info, List of the texts t
                     # Si c'est pour la création du code
                     else:
                         # Coloration du widget
-                        self.IDXEntry.setStyleSheet("background: yellow")
+                        self.IDXEntry.setPalette(PalettesWigets["LineEdit"])
 
             ## Si le fichier idx est un dossier
             else:
                 # Coloration du widget
-                self.IDXEntry.setStyleSheet("background: yellow")
+                self.IDXEntry.setPalette(PalettesWigets["LineEdit"])
 
             return False
 
         ### Si le fichier IDX est ok
         else:
             ## Suppression de la coloration du widget
-            self.IDXEntry.setStyleSheet("background: ")
+            self.IDXEntry.setPalette(self.IDXEntry.style().standardPalette())
 
 
 
@@ -899,7 +905,7 @@ Level 3: Level 2, Convert files names, Dialog creation info, List of the texts t
             ## Si c'est pour la création du code
             else:
                 # Coloration du widget
-                self.SRTEntry.setStyleSheet("background: yellow")
+                self.SRTEntry.setPalette(PalettesWigets["LineEdit"])
 
             return False
 
@@ -916,7 +922,7 @@ Level 3: Level 2, Convert files names, Dialog creation info, List of the texts t
         ### Si le fichier SRT est ok
         else:
             # Suppression de la coloration du widget
-            self.SRTEntry.setStyleSheet("background: ")
+            self.SRTEntry.setPalette(self.SRTEntry.style().standardPalette())
 
 
         ### Déblocage du bouton de poursuite
@@ -988,6 +994,13 @@ Level 3: Level 2, Convert files names, Dialog creation info, List of the texts t
     def closeEvent(self, Event):
         """Fonction appelée lors de la fermeture de fenêtre autre que accept."""
         GlobalVar["ExitCode"] = 1
+
+
+        ### Suppression du dossier temporaire automatique
+        if GlobalVar["AutoTempOverwrite"]:
+            if GlobalVar["FolderTempWidget"] and not GlobalVar["FolderTempWidget"].remove():
+                ErrorMessages(QCoreApplication.translate("main", "The temporary folder was not deleted."))
+
 
         Event.accept()
 
@@ -2084,6 +2097,12 @@ def QuitError(Text):
     GlobalVar["ExitCode"] = 1
 
 
+    ### Suppression du dossier temporaire automatique
+    if GlobalVar["AutoTempOverwrite"]:
+        if GlobalVar["FolderTempWidget"] and not GlobalVar["FolderTempWidget"].remove():
+            ErrorMessages(QCoreApplication.translate("main", "The temporary folder was not deleted."))
+
+
     ### Affichage du message d'erreur
     ErrorMessages(Text)
 
@@ -2143,12 +2162,26 @@ if __name__ == '__main__':
     ### QApplication ###
     ####################
     Qtesseract5 = QApplication(sys.argv)
-    Qtesseract5.setApplicationVersion("2.0") # Version de l'application
+    Qtesseract5.setApplicationVersion("2.1") # Version de l'application
     Qtesseract5.setApplicationName("Qtesseract5") # Nom de l'application
     Qtesseract5.setWindowIcon(QIcon.fromTheme("qtesseract5", QIcon(":/img/qtesseract5.png"))) # Icône de l'application
 
     ClipBoard = QApplication.clipboard()
     ClipBoard.clear(mode=ClipBoard.Clipboard)
+
+
+    ### Dictionnaires permettant de mettre en avant certains widgets
+    PalettesWigets = {}
+    PalettesWigets["LineEdit"] = QPalette()
+    brush = QBrush(QColor(255, 255, 125))
+    brush.setStyle(Qt.SolidPattern)
+    PalettesWigets["LineEdit"].setBrush(QPalette.Active, QPalette.Base, brush)
+    brush = QBrush(QColor(0, 0, 0))
+    brush.setStyle(Qt.SolidPattern)
+    PalettesWigets["LineEdit"].setBrush(QPalette.Active, QPalette.ToolTipText, brush)
+    brush = QBrush(QColor(255, 255, 255))
+    brush.setStyle(Qt.SolidPattern)
+    PalettesWigets["LineEdit"].setBrush(QPalette.Active, QPalette.ToolTipBase, brush)
 
 
     ### Dictionnaire contenant toutes les variables
@@ -2163,7 +2196,6 @@ if __name__ == '__main__':
     GlobalVar["FolderTesseractWait"] = True
     GlobalVar["RoundNumber"] = None
     GlobalVar["ProgressDialog"] = None
-
 
 
     ###################
@@ -2195,7 +2227,7 @@ Level 2: Use only customs colors"), QCoreApplication.translate("main", "Level"),
     LOption = QCommandLineOption(["L", "tesseract-folder"], QCoreApplication.translate("main", "Folder contains the languages for Tesseract."), QCoreApplication.translate("main", "Folder"), "")
     lOption = QCommandLineOption(["l", "tesseract-language"], QCoreApplication.translate("main", "Language to use for Tesseract, language system by default."), QCoreApplication.translate("main", "Lang"), str(QLocale().system().language()))
     fOption = QCommandLineOption(["f", "temporary-folder"], QCoreApplication.translate("main", "Folder in which temporary files will be stored."), QCoreApplication.translate("main", "Folder"), "")
-    rOption = QCommandLineOption(["r", "temporary-remove"], QCoreApplication.translate("main", "Automatically remove the temporary folder (True by default). Be Careful if it's a personal folder."), "", "True")
+    rOption = QCommandLineOption(["r", "temporary-remove"], QCoreApplication.translate("main", "Automatically remove the temporary folder (True by default).\nBe Careful if it's a personal folder."), "", "True")
     tOption = QCommandLineOption(["t", "thread"], QCoreApplication.translate("main", "Number of thread (cpu) to use simultaneous, max value by default."), QCoreApplication.translate("main", "Number"), str(QThread.idealThreadCount()))
     vOption = QCommandLineOption(["v", "verbose"], QCoreApplication.translate("main", "Verbose mode for debug.\n\
 Level 0: Errors messages\n\
@@ -2268,7 +2300,7 @@ Level 3: Level 2, Convert files names, Dialog creation info, Progress dialod end
 
     ### Dossier temporaire
     GlobalVar["FolderTemp"] = parser.value(fOption)
-    GlobalVar["AutoTempOverwrite"] = parser.isSet(rOption)
+    GlobalVar["AutoTempOverwrite"] = not parser.isSet(rOption) # La valeur étant positive par défaut, il faut inverser la valeur, si -r => false
 
 
     ### Langue à utiliser
@@ -2364,10 +2396,6 @@ Level 3: Level 2, Convert files names, Dialog creation info, Progress dialod end
     if GlobalVar["AutoTempOverwrite"]:
         if GlobalVar["FolderTempWidget"] and not GlobalVar["FolderTempWidget"].remove():
             ErrorMessages(QCoreApplication.translate("main", "The temporary folder was not deleted."))
-
-        ## Supprime le dossier temporaire uniquement s'il y a eu une extraction d'images
-        if  Path(GlobalVar["FolderTemp"]).is_dir() and GlobalVar["ProgressDialog"] and Path(GlobalVar["FolderTemp"]) != Path(QDir.homePath()):
-            rmtree(str(GlobalVar["FolderTemp"]))
 
 
     ### Ferme le code python

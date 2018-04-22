@@ -31,47 +31,47 @@
 <context>
     <name>CheckTextDialog</name>
     <message>
-        <location filename="Qtesseract5.py" line="1734"/>
+        <location filename="Qtesseract5.py" line="1747"/>
         <source>The check of the texts was canceled.</source>
         <translation>La vérification des textes a été annulée.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="1760"/>
+        <location filename="Qtesseract5.py" line="1773"/>
         <source>Customize the colors.</source>
         <translation>Personnaliser les couleurs.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="1769"/>
+        <location filename="Qtesseract5.py" line="1782"/>
         <source>Previous image</source>
         <translation>Image précédente</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="1774"/>
+        <location filename="Qtesseract5.py" line="1787"/>
         <source>Finish</source>
         <translation>Terminé</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="1775"/>
+        <location filename="Qtesseract5.py" line="1788"/>
         <source>Now, creation of the SRT file.</source>
         <translation>Maintenant, création du fichier SRT.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="1780"/>
+        <location filename="Qtesseract5.py" line="1793"/>
         <source>Next image</source>
         <translation>Image suivante</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="1814"/>
+        <location filename="Qtesseract5.py" line="1827"/>
         <source>Need to check texts</source>
         <translation>Besoin de vérifier des textes</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="1828"/>
+        <location filename="Qtesseract5.py" line="1841"/>
         <source>Creation of the check dialog.</source>
         <translation>Création de la fenêtre de correction.</translation>
     </message>
     <message numerus="yes">
-        <location filename="Qtesseract5.py" line="1835"/>
+        <location filename="Qtesseract5.py" line="1848"/>
         <source>%n subtitle(s) file(s) were not recognized or diacritic were detected.
 The files converted with the custom colors are present too with their texts.
 Check or write manually this text(s).</source>
@@ -86,7 +86,7 @@ Vérifier ou écrire manuellement ce texte.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="Qtesseract5.py" line="1838"/>
+        <location filename="Qtesseract5.py" line="1851"/>
         <source>%n subtitle(s) file(s) were not recognized or diacritic were detected.
 Check or write manually this text(s).</source>
         <comment>%n is the number of subtitle</comment>
@@ -98,7 +98,7 @@ Vérifier ou écrire manuellement ces textes.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="Qtesseract5.py" line="1863"/>
+        <location filename="Qtesseract5.py" line="1876"/>
         <source>%n file(s) with the hash: {}.</source>
         <comment>%n is the number of subtitle with the same hash.</comment>
         <translation>
@@ -107,17 +107,17 @@ Vérifier ou écrire manuellement ces textes.</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="1942"/>
+        <location filename="Qtesseract5.py" line="1955"/>
         <source>SRT file is empty.</source>
         <translation>Fichier SRT vide.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="1946"/>
+        <location filename="Qtesseract5.py" line="1959"/>
         <source>The SRT file is created.</source>
         <translation>Le fichier SRT a été créé.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="1958"/>
+        <location filename="Qtesseract5.py" line="1971"/>
         <source>SRT file isn&apos;t created.</source>
         <translation>Fichier SRT non créé.</translation>
     </message>
@@ -188,7 +188,7 @@ Il est possible de déposer le dossier ici.</translation>
     <message>
         <location filename="Qtesseract5.py" line="438"/>
         <source>Remove the temporary folder when closing the software. Be Careful if it&apos;s a personal folder.</source>
-        <translation>Suppression du dossier temporaire lors de la fermeture du logiciel. Prudence si un dossier personnel est utilisé.</translation>
+        <translation type="obsolete">Suppression du dossier temporaire lors de la fermeture du logiciel. Prudence si un dossier personnel est utilisé.</translation>
     </message>
     <message>
         <location filename="Qtesseract5.py" line="426"/>
@@ -229,7 +229,7 @@ Il est possible de déposer le dossier ici.</translation>
     <message>
         <location filename="Qtesseract5.py" line="449"/>
         <source>Debug level: </source>
-        <translation>Niveau de debug :</translation>
+        <translation>Niveau de debug : </translation>
     </message>
     <message>
         <location filename="Qtesseract5.py" line="450"/>
@@ -247,7 +247,7 @@ Niveau 3 : Niveau 2, Noms des fichiers convertis, Infos sur les créations de fe
     <message>
         <location filename="Qtesseract5.py" line="444"/>
         <source>Colors level: </source>
-        <translation>Niveau de couleurs :</translation>
+        <translation>Niveau de couleurs : </translation>
     </message>
     <message>
         <location filename="Qtesseract5.py" line="445"/>
@@ -328,167 +328,183 @@ Il est possible de déposer le dossier ici.</translation>
         <translation>Quitter</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="516"/>
+        <location filename="Qtesseract5.py" line="522"/>
         <source>Select the temporary folder</source>
         <translation>Indiquer le dossier temporaire</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="563"/>
+        <location filename="Qtesseract5.py" line="569"/>
         <source>The temporary folder must be empty.</source>
         <translation>Le dossier temporaire doit être vide.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="577"/>
+        <location filename="Qtesseract5.py" line="583"/>
         <source>The temporary folder must be a dir...</source>
         <translation>Le dossier temporaire doit être un répertoire...</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="590"/>
+        <location filename="Qtesseract5.py" line="596"/>
         <source>The temporary folder cannot be your home dir...</source>
         <translation>Le dossier temporaire ne peut être le home...</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="627"/>
+        <location filename="Qtesseract5.py" line="633"/>
         <source>Select the langs folder for Tesseract</source>
         <translation>Indiquer le dossier des langues de Tesseract</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="655"/>
+        <location filename="Qtesseract5.py" line="661"/>
         <source>The Tesseract folder must be a dir...</source>
         <translation>Le dossier Tesseract doit être un répertoire...</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="674"/>
+        <location filename="Qtesseract5.py" line="680"/>
         <source>The Tesseract folder must contain file(s) *.traineddata.
 Use the old value {}.</source>
         <translation>Le dossier Tesseract doit contenir des fichiers *.traineddata.
 Utilisation de l&apos;ancienne valeur : {}.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="683"/>
+        <location filename="Qtesseract5.py" line="689"/>
         <source>This new folder not contains traineddata files.</source>
         <translation>Ce nouveau dossier ne contient pas de fichiers traineddata.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="723"/>
+        <location filename="Qtesseract5.py" line="729"/>
         <source>Tesseract can use the languages: {}</source>
         <translation>Tesseract peut utiliser comme langages : {}</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="736"/>
+        <location filename="Qtesseract5.py" line="742"/>
         <source>Tesseract hasn&apos;t found the languages. The folder haven&apos;t languages files.</source>
         <translation>Tesseract n&apos;a pas trouvé de langages. Le dossier ne contient pas de fichiers de langues.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="758"/>
+        <location filename="Qtesseract5.py" line="764"/>
         <source>The subtitle language ({}) indicate in argument is not avaible in Tesseract languages.</source>
         <translation>La langue de sous titres indiquée ({}) en argument n&apos;est pas disponible dans les langages de Tesseract.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="779"/>
+        <location filename="Qtesseract5.py" line="785"/>
         <source>Select the IDX file to translate</source>
         <translation>Sélectionner le fichier IDX à traduire</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="792"/>
+        <location filename="Qtesseract5.py" line="798"/>
         <source>Select the output SRT file translated</source>
         <translation>Sélectionner le fichier SRT traduit de sortie</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="827"/>
+        <location filename="Qtesseract5.py" line="833"/>
         <source>=&gt; Command arguments &lt;=</source>
         <translation>=&gt; Arguments de commande &lt;=</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="828"/>
+        <location filename="Qtesseract5.py" line="834"/>
         <source>CustomColors arg: {}</source>
         <translation>Couleurs perso arg : {}</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="829"/>
+        <location filename="Qtesseract5.py" line="835"/>
         <source>CustomColors to use arg: {}</source>
         <translation>Couleurs perso à utiliser arg : {}</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="830"/>
+        <location filename="Qtesseract5.py" line="836"/>
         <source>Verbose arg: {}</source>
         <translation>Verbose arg : {}</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="831"/>
+        <location filename="Qtesseract5.py" line="837"/>
         <source>IDX arg: {}</source>
         <translation>IDX arg : {}</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="832"/>
+        <location filename="Qtesseract5.py" line="838"/>
         <source>Number of CPU arg: {}</source>
         <translation>Nombre de CPU arg : {}</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="833"/>
+        <location filename="Qtesseract5.py" line="839"/>
         <source>SRT arg: {}</source>
         <translation>SRT arg : {}</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="834"/>
+        <location filename="Qtesseract5.py" line="840"/>
         <source>Open SRT file arg: {}</source>
         <translation>Ouverture du fichier SRT arg : {}</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="835"/>
+        <location filename="Qtesseract5.py" line="841"/>
         <source>Tesseract Language arg: {}</source>
         <translation>Tesseract Langage arg : {}</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="836"/>
+        <location filename="Qtesseract5.py" line="842"/>
         <source>Auto overwrite SRT file arg: {}</source>
         <translation>Écriture automatique par dessus le fichier SRT arg : {}</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="837"/>
+        <location filename="Qtesseract5.py" line="843"/>
         <source>Auto remove the temporary folder arg: {}</source>
         <translation>Suppression automatique du dossier temporaire arg : {}</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="838"/>
+        <location filename="Qtesseract5.py" line="844"/>
         <source>Gui level arg: {}</source>
         <translation>Niveau graphique arg : {}</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="867"/>
+        <location filename="Qtesseract5.py" line="873"/>
         <source>No SUB input file.</source>
         <translation>Pas de fichier SUB source.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="897"/>
+        <location filename="Qtesseract5.py" line="903"/>
         <source>The SRT output file cannot have the same name as a folder.</source>
         <translation>Le fichier SRT de sortie ne peut avoir le même nom qu&apos;un dossier.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="911"/>
+        <location filename="Qtesseract5.py" line="917"/>
         <source>The output SRT file already exists.</source>
         <translation>Le fichier SRT de sortie existe déjà.</translation>
+    </message>
+    <message>
+        <location filename="Qtesseract5.py" line="178"/>
+        <source>Temporary folder to use for files extracted.
+This folder will be destroy in case of error or work finished.
+You can drag the folder here.</source>
+        <translation type="obsolete">Dossier temporaire à utiliser pour les fichiers extraits.
+Ce dossier sera détruit en cas d&apos;erreur ou de réuissite du travail.
+Il est possible de déposer le dossier ici.</translation>
+    </message>
+    <message>
+        <location filename="Qtesseract5.py" line="438"/>
+        <source>Remove the temporary folder when closing the software.
+Be Careful if it&apos;s a personal folder.</source>
+        <translation>Suppression du dossier temporaire lors de la fermeture du logiciel.
+Prudence si un dossier personnel est utilisé.</translation>
     </message>
 </context>
 <context>
     <name>CustomizeDialog</name>
     <message>
-        <location filename="Qtesseract5.py" line="1010"/>
+        <location filename="Qtesseract5.py" line="1023"/>
         <source>Customize creation</source>
         <translation>Création de la personnalisation</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="1021"/>
+        <location filename="Qtesseract5.py" line="1034"/>
         <source>Customize the colors</source>
         <translation>Personnaliser les couleurs</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="1023"/>
+        <location filename="Qtesseract5.py" line="1036"/>
         <source>Choose the custom colors:</source>
         <translation>Choix des couleurs personnalisées :</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="1024"/>
+        <location filename="Qtesseract5.py" line="1037"/>
         <source>1er color: shape outside.
 2nd color: shape
 3th color: text.
@@ -499,32 +515,32 @@ Utilisation de l&apos;ancienne valeur : {}.</translation>
 4e couleur : ???</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="1058"/>
+        <location filename="Qtesseract5.py" line="1071"/>
         <source>Apply</source>
         <translation>Appliquer</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="1059"/>
+        <location filename="Qtesseract5.py" line="1072"/>
         <source>Validate my choice.</source>
         <translation>Valider mon choix.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="1068"/>
+        <location filename="Qtesseract5.py" line="1081"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="1069"/>
+        <location filename="Qtesseract5.py" line="1082"/>
         <source>Reload old value.</source>
         <translation>Recharger l&apos;ancienne valeur.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="1072"/>
+        <location filename="Qtesseract5.py" line="1085"/>
         <source>Extract images</source>
         <translation>Extraire les images</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="1073"/>
+        <location filename="Qtesseract5.py" line="1086"/>
         <source>Extract and view images texts with custom colors.</source>
         <translation>Extraire et afficher les images texte avec les couleurs personnalisées.</translation>
     </message>
@@ -532,47 +548,47 @@ Utilisation de l&apos;ancienne valeur : {}.</translation>
 <context>
     <name>ProgressDialog</name>
     <message>
-        <location filename="Qtesseract5.py" line="1232"/>
+        <location filename="Qtesseract5.py" line="1245"/>
         <source>Progress dialog creation</source>
         <translation>Création de la fenêtre de progression</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="1475"/>
+        <location filename="Qtesseract5.py" line="1488"/>
         <source>Extraction of the images texts in progress...</source>
         <translation>Extraction des images textes en cours...</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="1263"/>
+        <location filename="Qtesseract5.py" line="1276"/>
         <source>Stop</source>
         <translation>Stop</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="1269"/>
+        <location filename="Qtesseract5.py" line="1282"/>
         <source>Pause</source>
         <translation>Pause</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="1331"/>
+        <location filename="Qtesseract5.py" line="1344"/>
         <source>Conversion from images to texts with custom colors</source>
         <translation>Conversion des images en textes avec les couleurs personnalisées</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="1335"/>
+        <location filename="Qtesseract5.py" line="1348"/>
         <source>Conversion from images to texts</source>
         <translation>Conversion des images en textes</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="1361"/>
+        <location filename="Qtesseract5.py" line="1374"/>
         <source>No image file created by subp2pgm?!</source>
         <translation>Aucune image n&apos;a été créé par subp2pgm ?!</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="1367"/>
+        <location filename="Qtesseract5.py" line="1380"/>
         <source>%v files done</source>
         <translation>%v fichiers faits</translation>
     </message>
     <message numerus="yes">
-        <location filename="Qtesseract5.py" line="1373"/>
+        <location filename="Qtesseract5.py" line="1386"/>
         <source>Convertion of %n image(s) by Tesseract with custom colors in progress...</source>
         <comment>%n is the number of image</comment>
         <translation>
@@ -581,7 +597,7 @@ Utilisation de l&apos;ancienne valeur : {}.</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="Qtesseract5.py" line="1377"/>
+        <location filename="Qtesseract5.py" line="1390"/>
         <source>Convertion of %n image(s) by Tesseract in progress...</source>
         <comment>%n is the number of image</comment>
         <translation>
@@ -590,17 +606,17 @@ Utilisation de l&apos;ancienne valeur : {}.</translation>
         </translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="1445"/>
+        <location filename="Qtesseract5.py" line="1458"/>
         <source>A Pause file has been detected.</source>
         <translation>Un fichier Pause a été détecté.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="1449"/>
+        <location filename="Qtesseract5.py" line="1462"/>
         <source>A Pause file has been deleted.</source>
         <translation>Un fichier Pause a été effacé.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="1512"/>
+        <location filename="Qtesseract5.py" line="1525"/>
         <source>The work has been canceled.</source>
         <translation>Le travail a été annulé.</translation>
     </message>
@@ -608,17 +624,17 @@ Utilisation de l&apos;ancienne valeur : {}.</translation>
 <context>
     <name>ProgressThread</name>
     <message>
-        <location filename="Qtesseract5.py" line="1581"/>
+        <location filename="Qtesseract5.py" line="1594"/>
         <source>A Stop file has been detected.</source>
         <translation>Un fichier Stop a été détecté.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="1679"/>
+        <location filename="Qtesseract5.py" line="1692"/>
         <source>Reply of the convertion of {}: {}</source>
         <translation>Retour de la conversion de {} : {}</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="1718"/>
+        <location filename="Qtesseract5.py" line="1731"/>
         <source>The conversion is finished.</source>
         <translation>La conversion est terminée.</translation>
     </message>
@@ -638,92 +654,92 @@ Utilisation de l&apos;ancienne valeur : {}.</translation>
 <context>
     <name>main</name>
     <message>
-        <location filename="Qtesseract5.py" line="2224"/>
+        <location filename="Qtesseract5.py" line="2256"/>
         <source>source</source>
         <translation>source</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="2225"/>
+        <location filename="Qtesseract5.py" line="2257"/>
         <source>destination</source>
         <translation>destination</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="2209"/>
+        <location filename="Qtesseract5.py" line="2241"/>
         <source>This software convert a IDX/SUB file in SRT (text) file with Tesseract, subp2pgm and subptools.</source>
         <translation>Ce logiciel converti un fichier IDX/SUB en fichier SRT (texte) avec Tesseract, subp2pgm et subptools.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="2196"/>
+        <location filename="Qtesseract5.py" line="2228"/>
         <source>Lang</source>
         <translation>Langue</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="2199"/>
+        <location filename="Qtesseract5.py" line="2231"/>
         <source>Number</source>
         <translation>Nombre</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="2073"/>
+        <location filename="Qtesseract5.py" line="2086"/>
         <source>Error Message</source>
         <translation>Message d&apos;Erreur</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="2076"/>
+        <location filename="Qtesseract5.py" line="2089"/>
         <source>Error Message: {}</source>
         <translation>Message d&apos;erreur : {}</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="2205"/>
+        <location filename="Qtesseract5.py" line="2237"/>
         <source>Version of the soft.</source>
         <translation>Version du logiciel.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="2196"/>
+        <location filename="Qtesseract5.py" line="2228"/>
         <source>Language to use for Tesseract, language system by default.</source>
         <translation>Langage à utiliser avec Tesseract, langage du système par défaut.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="2193"/>
+        <location filename="Qtesseract5.py" line="2225"/>
         <source>Automatically open the SRT file created.</source>
         <translation>Ouvrir automatiquement le fichier SRT créé.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="2195"/>
+        <location filename="Qtesseract5.py" line="2227"/>
         <source>Folder contains the languages for Tesseract.</source>
         <translation>Dossier contenant les langages pour Tesseract.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="2197"/>
+        <location filename="Qtesseract5.py" line="2229"/>
         <source>Folder</source>
         <translation>Dossier</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="2200"/>
+        <location filename="Qtesseract5.py" line="2232"/>
         <source>Level</source>
         <translation>Niveau</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="2224"/>
+        <location filename="Qtesseract5.py" line="2256"/>
         <source>Source IDX file to convert.</source>
         <translation>Fichier IDX source à convertir.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="2225"/>
+        <location filename="Qtesseract5.py" line="2257"/>
         <source>Destination SRT file converted.</source>
         <translation>Destination du fichier SRT converti.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="1970"/>
+        <location filename="Qtesseract5.py" line="1983"/>
         <source>Customization of the color of the images text</source>
         <translation>Personnalise la coloration des images textes</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="2199"/>
+        <location filename="Qtesseract5.py" line="2231"/>
         <source>Number of thread (cpu) to use simultaneous, max value by default.</source>
         <translation>Nombre de processus (cpu) à utiliser simultanément, valeur max par défaut.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="2187"/>
+        <location filename="Qtesseract5.py" line="2219"/>
         <source>Colors of the images texts.
 Level 0: No use custom colors
 Level 1: Use custom colors on images not recognized
@@ -734,7 +750,7 @@ Niveau 1 : Utiliser les couleurs personnalisées sur les images non reconnues
 Niveau 2 : N&apos;utiliser que les couleurs personnalisées</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="2200"/>
+        <location filename="Qtesseract5.py" line="2232"/>
         <source>Verbose mode for debug.
 Level 0: Errors messages
 Level 1: Level 0, Number of images files created, Temporary folder path, Conversion progress, by default
@@ -747,32 +763,32 @@ Niveau 2 : Niveau 1, Lignes de commandes, Langages de Tesseract, Valeurs des opt
 Niveau 3 : Niveau 2, Noms des fichiers convertis, Infos sur les créations de fenêtres, Liste des fichiers à vérifier</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="2197"/>
+        <location filename="Qtesseract5.py" line="2229"/>
         <source>Folder in which temporary files will be stored.</source>
         <translation>Dossier dans lequel seront stockés les fichiers temporaires.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="2186"/>
+        <location filename="Qtesseract5.py" line="2218"/>
         <source>Colors to use for the custom-colors</source>
         <translation>Couleurs à utiliser comme couleurs personnalisées</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="2186"/>
+        <location filename="Qtesseract5.py" line="2218"/>
         <source>Custom Colors</source>
         <translation>Couleurs personnalisées</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="2366"/>
+        <location filename="Qtesseract5.py" line="2398"/>
         <source>The temporary folder was not deleted.</source>
         <translation>Le dossier temporaire n&apos;a pas été supprimé.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="2332"/>
+        <location filename="Qtesseract5.py" line="2364"/>
         <source>The {} executable isn&apos;t founded.</source>
         <translation>L&apos;exécutable {} n&apos;a pas été trouvé.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="2191"/>
+        <location filename="Qtesseract5.py" line="2223"/>
         <source>Level of the gui.
 0: No window at all.
 1: Only check texts window.
@@ -783,17 +799,17 @@ Niveau 3 : Niveau 2, Noms des fichiers convertis, Infos sur les créations de fe
 2 : Toutes les fenêtres.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="2194"/>
+        <location filename="Qtesseract5.py" line="2226"/>
         <source>Overwrite the SRT output file.</source>
         <translation>Écrire par dessus le fichier SRT de sortie.</translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="2198"/>
+        <location filename="Qtesseract5.py" line="2225"/>
         <source>Automatically remove the temporary folder (True by default). Be Careful if it&apos;s a personal folder.</source>
-        <translation>Suppression automatique du dossier temporaire (Vrai par défaut). Prudence si un dossier personnel est utilisé.</translation>
+        <translation type="obsolete">Suppression automatique du dossier temporaire (Vrai par défaut). Prudence si un dossier personnel est utilisé.</translation>
     </message>
     <message numerus="yes">
-        <location filename="Qtesseract5.py" line="2024"/>
+        <location filename="Qtesseract5.py" line="2037"/>
         <source>%n file(s) generated with custom colors.</source>
         <comment>%n is the number of images by subp2pgm</comment>
         <translation>
@@ -802,7 +818,7 @@ Niveau 3 : Niveau 2, Noms des fichiers convertis, Infos sur les créations de fe
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="Qtesseract5.py" line="2027"/>
+        <location filename="Qtesseract5.py" line="2040"/>
         <source>%n file(s) generated.</source>
         <comment>%n is the number of images by subp2pgm</comment>
         <translation>
@@ -811,9 +827,16 @@ Niveau 3 : Niveau 2, Noms des fichiers convertis, Infos sur les créations de fe
         </translation>
     </message>
     <message>
-        <location filename="Qtesseract5.py" line="2192"/>
+        <location filename="Qtesseract5.py" line="2224"/>
         <source>Language of the soft (en or fr), use the language of the system by default.</source>
         <translation>Langage du logiciel (en ou fr), langage du système par défaut.</translation>
+    </message>
+    <message>
+        <location filename="Qtesseract5.py" line="2230"/>
+        <source>Automatically remove the temporary folder (True by default).
+Be Careful if it&apos;s a personal folder.</source>
+        <translation>Suppression automatique du dossier temporaire (Vrai par défaut).
+Prudence si un dossier personnel est utilisé.</translation>
     </message>
 </context>
 </TS>
