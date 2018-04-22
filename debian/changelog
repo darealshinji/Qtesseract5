@@ -1,3 +1,17 @@
+qtesseract5 (2.1a-0~xenial) xenial; urgency=low ()
+
+  [english]
+     - Fix of the the temp folder deletion option
+     - Fix the tooltip's color
+     - Fix the about win
+
+  [français]
+    - Option de la suppression du dossier temporaire corrigé
+    - Correction de la couleur des infos bulles
+    - Correction de la fenêtre about
+
+ -- hizoka <hizo@free.fr>  Sun, 28 Jan 2018 11:53:22 +0200
+
 qtesseract5 (2.0-0~xenial) xenial; urgency=low ()
 
   [english]
